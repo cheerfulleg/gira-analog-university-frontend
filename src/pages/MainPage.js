@@ -1,9 +1,7 @@
-import Nav from "../components/Nav";
-
 function MainPage() {
     return (
         <>
-            <Nav/>
+            <h1>MAIN</h1>
         </>
     )
 }

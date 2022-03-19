@@ -1,16 +1,18 @@
 import './App.css';
 import React from "react";
 
-import {BrowserRouter, Route, Routes} from 'react-router-dom'
+import {Route, Routes} from 'react-router-dom'
 import Login from "./pages/Login";
 import MainPage from "./pages/MainPage";
 import User from "./pages/User";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
+import Nav from "./components/Nav";
 
 function App() {
     return (
-        <BrowserRouter>
+        <>
+            <Nav/>
             <Routes>
                 <Route exact path='/' element={<MainPage/>}/>
                 <Route exact path='/login' element={<Login/>}/>
@@ -18,7 +20,7 @@ function App() {
                 <Route exact path='/register' element={<Register/>}/>
                 <Route exact path='/forgot-password' element={<ForgotPassword/>}/>
             </Routes>
-        </BrowserRouter>
+        </>
     );
 }
 

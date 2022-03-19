@@ -4,6 +4,7 @@ import axios from "axios";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter} from "react-router-dom";
 
 axios.defaults.baseURL = 'http://127.0.0.1:5000'
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
@@ -11,7 +12,9 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getIte
 
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')
 );
