@@ -12,6 +12,7 @@ import {SnackbarProvider} from "notistack";
 import Footer from "./components/Footer";
 import Box from "@mui/material/Box";
 import {CssBaseline} from "@mui/material";
+import Container from "@mui/material/Container";
 
 function App() {
     return (
@@ -25,13 +26,15 @@ function App() {
             >
                 <CssBaseline/>
                 <Nav/>
-                <Routes>
-                    <Route exact path='/' element={<MainPage/>}/>
-                    <Route exact path='/login' element={<Login/>}/>
-                    <Route exact path='/profile' element={<User/>}/>
-                    <Route exact path='/register' element={<Register/>}/>
-                    <Route exact path='/forgot-password' element={<ForgotPassword/>}/>
-                </Routes>
+                <Container sx={{py: 3}} maxWidth="lg">
+                    <Routes>
+                        <Route exact path='/' element={<MainPage/>}/>
+                        <Route exact path='/login' element={<Login/>}/>
+                        <Route exact path='/profile' element={<User/>}/>
+                        <Route exact path='/register' element={<Register/>}/>
+                        <Route exact path='/forgot-password' element={<ForgotPassword/>}/>
+                    </Routes>
+                </Container>
                 <Footer/>
             </Box>
         </SnackbarProvider>
