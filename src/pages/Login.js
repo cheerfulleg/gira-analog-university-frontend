@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import {Link} from "@mui/material";
 import {theme} from "../services/theme";
+import {useSnackbar} from "notistack";
 
 
 function Login() {
@@ -21,6 +22,12 @@ function Login() {
     const [password, setPassword] = useState("")
 
     const navigate = useNavigate()
+
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+
+    const handleResponseVariant = (info) => () => {
+        enqueueSnackbar(info.message, {variant: info.variant});
+    };
 
     const login = () => {
         const data = {
@@ -35,9 +42,10 @@ function Login() {
                 }
             }
         ).then(res => {
+            handleResponseVariant({message: 'Successfully logged in', variant: 'success'})
             localStorage.setItem('token', res.data.access_token)
             navigate('/')
-        }).catch(e => console.log(e))
+        }).catch(handleResponseVariant({message: 'Something went wrong', variant: 'error'}))
     }
     return (
         <ThemeProvider theme={theme}>
