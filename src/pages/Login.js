@@ -1,7 +1,21 @@
 import {useState} from "react";
-import {Link, useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 import axios from "axios";
 import qs from "qs";
+import {ThemeProvider} from "@mui/material/styles";
+import Container from "@mui/material/Container";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import {createTheme, Link} from "@mui/material";
+
+const theme = createTheme();
+
 
 function Login() {
     const [username, setUsername] = useState("")
@@ -27,20 +41,72 @@ function Login() {
         }).catch(e => console.log(e))
     }
     return (
-        <div>
-            <input
-                type="text"
-                placeholder="username..."
-                onChange={event => {setUsername(event.target.value)}}
-            />
-            <input
-                type="password"
-                placeholder="password..."
-                onChange={event => {setPassword(event.target.value)}}
-            />
-            <button onClick={login}>Login</button>
-            <Link to='/forgot-password'>Forgot password?</Link>
-        </div>
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline/>
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                        <LockOutlinedIcon/>
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign in
+                    </Typography>
+                    <Box noValidate sx={{mt: 1}}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="username"
+                            label="Email Address"
+                            name="username"
+                            autoComplete="email"
+                            autoFocus
+                            onChange={event => setUsername(event.target.value)}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            onChange={event => setPassword(event.target.value)}
+                        />
+
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{mt: 3, mb: 2}}
+                            onClick={login}
+                        >
+                            Sign In
+                        </Button>
+                        <Grid container>
+                            <Grid item xs>
+                                <Link href="/forgot-password" variant="body2">
+                                    Forgot password?
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link href="/register" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
 }
 
