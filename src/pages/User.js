@@ -11,7 +11,6 @@ class User extends React.Component {
         axios.get('/user')
             .then(res => {
                 this.setState({user: res.data, isLoaded: true})
-                console.log(this.state.user)
             })
             .catch(e => console.log(e))
     }
