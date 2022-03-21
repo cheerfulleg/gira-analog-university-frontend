@@ -8,10 +8,11 @@ import User from "./pages/User";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import Nav from "./components/Nav";
+import {SnackbarProvider} from "notistack";
 
 function App() {
     return (
-        <>
+        <SnackbarProvider>
             <Nav/>
             <Routes>
                 <Route exact path='/' element={<MainPage/>}/>
@@ -20,7 +21,7 @@ function App() {
                 <Route exact path='/register' element={<Register/>}/>
                 <Route exact path='/forgot-password' element={<ForgotPassword/>}/>
             </Routes>
-        </>
+        </SnackbarProvider>
     );
 }
 
