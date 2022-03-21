@@ -1,7 +1,7 @@
 import {Link, useNavigate} from "react-router-dom";
 
 
-function LoginLogout(props) {
+function LoginOrLogout(props) {
     const navigate = useNavigate()
 
     const logout = () => {
@@ -21,4 +21,4 @@ function LoginLogout(props) {
 
 }
 
-export default LoginLogout
+export default LoginOrLogout

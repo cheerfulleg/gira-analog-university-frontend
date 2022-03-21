@@ -1,5 +1,5 @@
-import LoginLogout from "./LoginLogout";
-import RegisterProfile from "./RegisterProfile";
+import LoginOrLogout from "./LoginOrLogout";
+import RegisterOrProfile from "./RegisterOrProfile";
 import {Link} from "react-router-dom";
 
 function Nav() {
@@ -9,8 +9,8 @@ function Nav() {
     return (
         <>
             <Link to='/'>Jira Analog University</Link>
-            <LoginLogout loggedIn={loggedIn()}/>
-            <RegisterProfile loggedIn={loggedIn()}/>
+            <LoginOrLogout loggedIn={loggedIn()}/>
+            <RegisterOrProfile loggedIn={loggedIn()}/>
         </>
     )
 }

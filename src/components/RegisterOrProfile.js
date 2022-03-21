@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-function RegisterProfile(props) {
+function RegisterOrProfile(props) {
     return (
         <>
             {
@@ -12,4 +12,4 @@ function RegisterProfile(props) {
     )
 }
 
-export default RegisterProfile
+export default RegisterOrProfile
