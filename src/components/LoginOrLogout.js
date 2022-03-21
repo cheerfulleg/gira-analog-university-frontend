@@ -1,4 +1,5 @@
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import Button from "@mui/material/Button";
 
 
 function LoginOrLogout(props) {
@@ -12,9 +13,18 @@ function LoginOrLogout(props) {
     return (
         <>
             {
-                 props.loggedIn ?
-                    <button onClick={logout}>Logout</button> :
-                    <Link to='/login'>Login</Link>
+                props.loggedIn ?
+                    <Button onClick={logout}
+                            variant="outlined"
+                            sx={{my: 1, mx: 1.5}}>
+                        Logout
+                    </Button>
+                    :
+                    <Button href="/login"
+                            variant="outlined"
+                            sx={{my: 1, mx: 1.5}}>
+                        Login
+                    </Button>
             }
         </>
     )
