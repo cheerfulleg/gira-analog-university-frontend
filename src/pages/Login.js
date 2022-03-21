@@ -45,6 +45,7 @@ function Login() {
             handleResponseVariant({message: 'Successfully logged in', variant: 'success'})
             localStorage.setItem('token', res.data.access_token)
             navigate('/')
+            window.location.reload(true)
         }).catch(handleResponseVariant({message: 'Something went wrong', variant: 'error'}))
     }
     return (

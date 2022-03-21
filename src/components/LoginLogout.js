@@ -7,6 +7,7 @@ function LoginLogout(props) {
     const logout = () => {
         localStorage.removeItem("token");
         navigate('/')
+        window.location.reload(true)
     }
     return (
         <>
