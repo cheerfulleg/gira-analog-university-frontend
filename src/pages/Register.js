@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {ThemeProvider} from '@mui/material/styles';
 import {theme} from "../services/theme";
+import {useSnackbar} from "notistack";
+import {useNavigate} from "react-router-dom";
 
 function Register() {
     const [formValue, setFormValue] = useState({
@@ -21,10 +23,23 @@ function Register() {
         last_name: '',
         password: ''
     });
-    const handleSubmit = async () => {
+
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+    const navigate = useNavigate()
+
+    const handleResponseVariant = (info) => {
+        enqueueSnackbar(info.message, {variant: info.variant});
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
         axios.post("/user", formValue)
-            .then(res => console.log(res))
-            .catch(e => console.log(e))
+            .then(() => {
+                    handleResponseVariant({message: 'Successfully registered', variant: 'success'})
+                    navigate('/login')
+                }
+            )
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
     const handleChange = (event) => {
         setFormValue({
