@@ -1,10 +1,9 @@
 import React from "react";
 import {styled} from '@mui/material/styles';
-import {Paper} from "@mui/material";
+import {Link, Paper} from "@mui/material";
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import axios from "axios";
 
@@ -54,7 +53,9 @@ function a11yProps(index) {
 class MainPage extends React.Component {
     state = {
         isLoaded: false,
-        value: 0
+        value: 0,
+        projects: [],
+        myProjects: [],
     }
 
     componentDidMount() {
@@ -101,8 +102,10 @@ class MainPage extends React.Component {
                     </TabPanel>
                 </Box>
             )
-        } else {
+        } else if (!!isLoaded) {
             return (<>Loading....</>)
+        } else {
+            return <Link href='/login'>Unauthorized: Login first</Link>
         }
     }
 }
