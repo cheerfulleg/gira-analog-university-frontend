@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import Container from "@mui/material/Container";
 import {theme} from "./services/theme";
+import Project from "./pages/Project";
 
 function App() {
     return (
@@ -35,6 +36,7 @@ function App() {
                             <Route exact path='/profile' element={<User/>}/>
                             <Route exact path='/register' element={<Register/>}/>
                             <Route exact path='/forgot-password' element={<ForgotPassword/>}/>
+                            <Route exact path='/project/:id' element={<Project/>}/>
                         </Routes>
                     </Container>
                     <Footer/>

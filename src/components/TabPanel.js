@@ -1,9 +1,11 @@
 import Box from "@mui/material/Box";
 import PropTypes from "prop-types";
 import React from "react";
+import {Link} from "@mui/material";
+import Item from "./ProjectItem";
 
-const TabPanel = (props) => {
-    const {children, value, index, ...other} = props;
+function TabPanel(props) {
+    const {children, parentLink, value, index, ...other} = props;
 
     return (
         <div
@@ -15,7 +17,15 @@ const TabPanel = (props) => {
         >
             {value === index && (
                 <Box sx={{p: 3}}>
-                    <Box>{children}</Box>
+                    <Box>
+                        {children.map(child => (
+                            <Link key={child.id} href={`/${parentLink}/${child.id}`}>
+                                <Item key={child.id} elevation={4}>
+                                    {child.name}
+                                </Item>
+                            </Link>
+                        ))}
+                    </Box>
                 </Box>
             )}
         </div>
@@ -23,7 +33,8 @@ const TabPanel = (props) => {
 }
 
 TabPanel.propTypes = {
-    children: PropTypes.node,
+    children: PropTypes.array,
+    parentLink: PropTypes.string,
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
 };
