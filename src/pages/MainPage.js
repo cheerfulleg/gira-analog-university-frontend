@@ -4,7 +4,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import axios from "axios";
-import Item from "../components/ProjectItem";
 import TabPanel from "../components/TabPanel";
 
 function a11yProps(index) {
@@ -50,20 +49,8 @@ class MainPage extends React.Component {
                             <Tab label="My projects" {...a11yProps(1)} />
                         </Tabs>
                     </Box>
-                    <TabPanel value={value} index={0}>
-                        {projects.map(project => (
-                            <Item key={project.id} elevation={4}>
-                                {project.name}
-                            </Item>
-                        ))}
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        {myProjects.map(project => (
-                            <Item key={project.id} elevation={4}>
-                                {project.name}
-                            </Item>
-                        ))}
-                    </TabPanel>
+                    <TabPanel value={value} index={0} children={projects} parentLink={'project'}/>
+                    <TabPanel value={value} index={1} children={myProjects} parentLink={'project'}/>
                 </Box>
             )
         } else if (!!isLoaded) {
