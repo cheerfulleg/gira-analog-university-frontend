@@ -1,47 +1,11 @@
 import React from "react";
-import {styled} from '@mui/material/styles';
-import {Link, Paper} from "@mui/material";
-import PropTypes from 'prop-types';
+import {Link} from "@mui/material";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import axios from "axios";
-
-const Item = styled(Paper)(({theme}) => ({
-    ...theme.typography.body2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-    height: 60,
-    lineHeight: '60px',
-    marginTop: '15px',
-    marginBottom: '15px'
-}));
-
-function TabPanel(props) {
-    const {children, value, index, ...other} = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box sx={{p: 3}}>
-                    <Box>{children}</Box>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
+import Item from "../components/ProjectItem";
+import TabPanel from "../components/TabPanel";
 
 function a11yProps(index) {
     return {
