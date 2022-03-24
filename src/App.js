@@ -29,7 +29,7 @@ function App() {
                 >
                     <CssBaseline/>
                     <Nav/>
-                    <Container sx={{py: 3}} maxWidth="lg">
+                    <Container sx={{py: 3}} maxWidth="xl">
                         <Routes>
                             <Route exact path='/' element={<MainPage/>}/>
                             <Route exact path='/login' element={<Login/>}/>
