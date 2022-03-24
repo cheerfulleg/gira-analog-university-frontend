@@ -74,7 +74,12 @@ function Project() {
                     allowAddCard={{on: "top"}}
 
                     renderCard={(content, {removeCard, dragging}) =>
-                        <BoardCard content={content} dragging={dragging} removeCard={removeCard}/>
+                        <BoardCard card={content}
+                                   dragging={dragging}
+                                   removeCard={removeCard}
+                                   projectId={project.id}
+                                   members={project.team_members}
+                        />
                     }
                     onNewCardConfirm={(draftCard) => ({
                         id: new Date().getTime(),
