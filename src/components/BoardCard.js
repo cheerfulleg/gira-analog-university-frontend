@@ -50,7 +50,9 @@ function BoardCard(props) {
                     {assignee ?
                         <Box>
                             <Button size="small" onClick={toggleInputMode}>Reassign</Button>
-                            <Typography variant="body2">{assignee.user.email}</Typography>
+                            <Typography variant="body2">
+                                {assignee.user.email}{assignee.role ? " - " + assignee.role : null}
+                            </Typography>
                         </Box>
                         :
                         <Button size="small" onClick={toggleInputMode}>Assign</Button>
@@ -75,7 +77,6 @@ function BoardCard(props) {
                                   getOptionLabel={(option) => option.user.email}
                                   renderInput={params => <TextField {...params} label="Choose user"/>}
                                   options={members}
-                                  // onSelect={handleClose}
                                   onChange={handleChange}
                                   onClose={handleClose}
 
