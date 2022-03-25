@@ -23,7 +23,7 @@ function MemberItem({member, onRemove, onUpdate}) {
     const [editMode, setEditMode] = useState(false)
     const [role, setRole] = useState(member.role ? member.role : null)
 
-    const handleEditMode = () => {
+    const toggleEditMode = () => {
         setEditMode(!editMode)
     }
 
@@ -32,7 +32,7 @@ function MemberItem({member, onRemove, onUpdate}) {
     }
 
     const handleClick = () => {
-        handleEditMode()
+        toggleEditMode()
         onUpdate(member.id, {role})
     }
 
@@ -41,7 +41,7 @@ function MemberItem({member, onRemove, onUpdate}) {
             <Item>
                 {member.user.email} {role ? " - " + role : null}
                 <Box sx={{float: "right"}}>
-                    <IconButton onClick={handleEditMode}>
+                    <IconButton onClick={toggleEditMode}>
                         <EditIcon/>
                     </IconButton>
                     <IconButton onClick={() => onRemove(member.id)}>
@@ -78,7 +78,7 @@ function MemberItem({member, onRemove, onUpdate}) {
                 <Button size="small"
                         variant="contained"
                         color="error"
-                        onClick={handleEditMode}>
+                        onClick={toggleEditMode}>
                     Cancel
                 </Button>
             </Item>
