@@ -26,7 +26,7 @@ const ColumnAdder = ({addColumn}) => {
                 <Button sx={{
                     width: "100%",
                     alignItems: "center",
-                    marginY: 1,
+                    marginY: 3,
                     padding: 3
                 }} variant="outlined"
                         onClick={toggleInputMode}>
