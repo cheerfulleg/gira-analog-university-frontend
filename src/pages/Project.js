@@ -13,6 +13,7 @@ import Tab from "@mui/material/Tab";
 import {a11yProps, TabPanel} from "../components/TabPanel";
 import MemberItem from "../components/MemberItem";
 import AddTeamMate from "../components/AddTeamMate";
+import Grid from "@mui/material/Grid";
 
 
 function Project() {
@@ -169,14 +170,18 @@ function Project() {
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <AddTeamMate users={users} addMember={addTeamMember}/>
-                    {projectMembers.map(member =>
-                        <MemberItem key={member.user.id}
-                                    elevation={2}
-                                    member={member}
-                                    onRemove={removeMember}
-                                    onUpdate={updateMember}
-                        />
-                    )}
+                    <Grid container spacing={2}>
+                        {projectMembers.map(member =>
+                            <Grid item>
+                                <MemberItem key={member.user.id}
+                                            elevation={2}
+                                            member={member}
+                                            onRemove={removeMember}
+                                            onUpdate={updateMember}
+                                />
+                            </Grid>
+                        )}
+                    </Grid>
                 </TabPanel>
             </Box>
         )
