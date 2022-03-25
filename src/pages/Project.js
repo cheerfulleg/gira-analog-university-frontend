@@ -103,8 +103,6 @@ function Project() {
 
     const addTeamMember = (data) => {
         const newMember = users.find(item => item.id === data.user_id)
-
-        console.log(projectMembers)
         axios.post(`/projects/${project.id}/member`, data)
             .then(res => {
                 setProjectMembers(projectMembers.concat({
@@ -172,7 +170,7 @@ function Project() {
                     <AddTeamMate users={users} addMember={addTeamMember}/>
                     <Grid container spacing={2}>
                         {projectMembers.map(member =>
-                            <Grid item>
+                            <Grid item key={member.user.id}>
                                 <MemberItem key={member.user.id}
                                             elevation={2}
                                             member={member}
