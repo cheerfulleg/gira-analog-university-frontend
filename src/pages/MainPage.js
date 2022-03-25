@@ -1,78 +1,54 @@
-import React from "react";
-import {Link} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import axios from "axios";
-import {TabPanel, a11yProps} from "../components/TabPanel";
-import Item from "../components/ProjectItem";
+import {a11yProps, TabPanel} from "../components/TabPanel";
+import MainPagePanel from "../components/MainPagePanel";
 
-class MainPage extends React.Component {
-    state = {
-        isLoaded: false,
-        value: 0,
-        projects: [],
-        myProjects: [],
-    }
+function MainPage() {
 
-    componentDidMount() {
+    const [projects, setProjects] = useState([])
+    const [myProjects, setMyProjects] = useState([])
+    const [value, setValue] = useState(0)
+
+    useEffect(() => {
+        getProjects()
+        getMyProjects()
+    }, [])
+
+    const getProjects = () => {
         axios.get('/projects')
-            .then(res => {
-                this.setState({projects: res.data})
-            })
-            .catch(e => console.log(e))
+            .then(res => setProjects(res.data))
+            .catch(err => console.log(err))
+    }
+    const getMyProjects = () => {
         axios.get('/projects/my')
-            .then(res => {
-                this.setState({myProjects: res.data, isLoaded: true})
-            })
+            .then(res => setMyProjects(res.data))
             .catch(e => console.log(e))
     }
 
-    handleChange = (event, newValue) => {
-        this.setState({value: newValue});
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
 
-    render() {
-        const {isLoaded, projects, myProjects, value} = this.state
-        if (isLoaded) {
-            return (
-                <Box>
-                    <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
-                        <Tabs value={value} onChange={this.handleChange} aria-label="basic tabs example">
-                            <Tab label="All projects" {...a11yProps(0)} />
-                            <Tab label="My projects" {...a11yProps(1)} />
-                        </Tabs>
-                    </Box>
-                    <TabPanel value={value} index={0} parentLink={'project'}>
-                        <Box>
-                            {projects.map(project => (
-                                <Link key={project.id} href={`/project/${project.id}`}>
-                                    <Item key={project.id} elevation={4}>
-                                        {project.name}
-                                    </Item>
-                                </Link>
-                            ))}
-                        </Box>
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <Box>
-                            {myProjects.map(project => (
-                                <Link key={project.id} href={`/project/${project.id}`}>
-                                    <Item key={project.id} elevation={4}>
-                                        {project.name}
-                                    </Item>
-                                </Link>
-                            ))}
-                        </Box>
-                    </TabPanel>
-                </Box>
-            )
-        } else if (!!isLoaded) {
-            return (<>Loading....</>)
-        } else {
-            return <Link href='/login'>Unauthorized: Login first</Link>
-        }
-    }
+    return (
+        <Box>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
+                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                    <Tab label="All projects" {...a11yProps(0)} />
+                    <Tab label="My projects" {...a11yProps(1)} />
+                </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+                <MainPagePanel projects={projects}/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <MainPagePanel projects={myProjects}/>
+            </TabPanel>
+        </Box>
+    )
+
 }
 
 export default MainPage
