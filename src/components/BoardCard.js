@@ -4,14 +4,12 @@ import Typography from "@mui/material/Typography";
 import {DeleteOutline} from "@mui/icons-material";
 import React, {useState} from "react";
 import Box from "@mui/material/Box";
-import axios from "axios";
 
-function BoardCard(props) {
-    const {projectId, card, removeCard, members} = props
+function BoardCard({card, removeCard, members, assignMember}) {
 
     const [inputMode, setInputMode] = useState(false)
     const [assignee, setAssignee] = useState(card.assignee
-        ? members.find(o => o.id === card.assignee.id): null)
+        ? members.find(o => o.id === card.assignee.id) : null)
 
     const toggleInputMode = () => {
         setInputMode(!inputMode)
@@ -19,11 +17,7 @@ function BoardCard(props) {
 
     const handleChange = (event, value) => {
         setAssignee(value)
-
-        axios.patch(`/projects/${projectId}/task/${card.id}/assign`,
-            {assignee_id: value.id})
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+        assignMember(card, value)
     }
 
     const handleClose = () => {

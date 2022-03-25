@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import AddIcon from "@mui/icons-material/Add";
+
 
 const ColumnAdder = ({addColumn}) => {
     const [inputMode, setInputMode] = useState(false)
@@ -26,9 +28,9 @@ const ColumnAdder = ({addColumn}) => {
                     alignItems: "center",
                     marginY: 1,
                     padding: 3
-                }} variant="contained"
+                }} variant="outlined"
                         onClick={toggleInputMode}>
-                    Add Column
+                    <AddIcon/>   Add Column
                 </Button>
                 : <Box>
                     <TextField margin="normal"
