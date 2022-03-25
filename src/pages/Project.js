@@ -14,6 +14,7 @@ import {a11yProps, TabPanel} from "../components/TabPanel";
 import MemberItem from "../components/MemberItem";
 import AddTeamMate from "../components/AddTeamMate";
 import Grid from "@mui/material/Grid";
+import {useSnackbar} from "notistack";
 
 
 function Project() {
@@ -28,19 +29,25 @@ function Project() {
         getUsers()
     }, [])
 
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+
+    const handleResponseVariant = (info) => () => {
+        enqueueSnackbar(info.message, {variant: info.variant});
+    };
+
     const getProject = () => {
         axios.get(`/projects/${params.id}`)
             .then(res => {
                 setProject(res.data)
                 setProjectMembers(res.data.team_members)
             })
-            .catch(e => console.log(e))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const getUsers = () => {
         axios.get('/users')
             .then(res => setUsers(res.data))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const handleDragEnd = (board, card, source, destination) => {
@@ -48,33 +55,33 @@ function Project() {
             {column_id: destination.toColumnId}
         )
             .then(res => setProject(res.data))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const handleCardRemove = (board, column, card) => {
         axios.delete(`/projects/${project.id}/task/${card.id}`,
         )
             .then(res => setProject(res.data))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const handleCardAdd = (board, column) => {
         const newCard = findNewCard(project, board)
         axios.post(`/projects/${project.id}/column/${column.id}/task`, newCard)
             .then(res => setProject(res.data))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
 
     }
     const handleAddColumn = (board, column) => {
         axios.post(`/projects/${project.id}/column`, {title: column.title})
             .then(res => setProject(res.data))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const handleColumnRemove = (board, column) => {
         axios.delete(`/projects/${project.id}/column/${column.id}`)
             .then(res => setProject(res.data))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const handleChange = (event, value) => {
@@ -86,19 +93,19 @@ function Project() {
         setProjectMembers(newList)
         axios.delete(`/projects/${project.id}/member/${id}`)
             .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const updateMember = (id, data) => {
         axios.patch(`/projects/${project.id}/member/${id}`, data)
             .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
     const assignMember = (card, value) => {
         axios.patch(`/projects/${project.id}/task/${card.id}/assign`,
             {assignee_id: value.id})
             .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const addTeamMember = (data) => {
@@ -111,7 +118,7 @@ function Project() {
                     user: newMember
                 }))
             })
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     if (project) {

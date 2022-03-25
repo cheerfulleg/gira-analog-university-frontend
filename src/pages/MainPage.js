@@ -8,7 +8,7 @@ import MainPagePanel from "../components/MainPagePanel";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import ProjectCreateModal from "../components/ProjectCreateModal";
-import {useNavigate} from "react-router-dom";
+import {useSnackbar} from "notistack";
 
 function MainPage() {
 
@@ -17,8 +17,12 @@ function MainPage() {
     const [value, setValue] = useState(0)
     const [open, setOpen] = React.useState(false);
 
-    const navigate = useNavigate();
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
+
+    const handleResponseVariant = (info) => {
+        enqueueSnackbar(info.message, {variant: info.variant});
+    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -36,12 +40,12 @@ function MainPage() {
     const getProjects = () => {
         axios.get('/projects')
             .then(res => setProjects(res.data))
-            .catch(err => console.log(err))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
     const getMyProjects = () => {
         axios.get('/projects/my')
             .then(res => setMyProjects(res.data))
-            .catch(e => console.log(e))
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     const handleChange = (event, newValue) => {
@@ -49,13 +53,13 @@ function MainPage() {
     };
 
     const createProject = (data) => {
-      axios.post('/projects', data)
-          .then(res => {
-              setProjects(projects.concat(res.data))
-              setMyProjects(myProjects.concat(res.data))
-              handleClose()
-          })
-          .catch(err => console.log(err))
+        axios.post('/projects', data)
+            .then(res => {
+                setProjects(projects.concat(res.data))
+                setMyProjects(myProjects.concat(res.data))
+                handleClose()
+            })
+            .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
     return (
@@ -63,9 +67,9 @@ function MainPage() {
             <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Button variant="outlined" onClick={handleClickOpen}
                         sx={{
-                    marginRight: 1,
-                    float: 'right'
-                }}>
+                            marginRight: 1,
+                            float: 'right'
+                        }}>
                     <AddIcon/> Create Project
                 </Button>
                 <ProjectCreateModal open={open} handleClose={handleClose} createProject={createProject}/>
