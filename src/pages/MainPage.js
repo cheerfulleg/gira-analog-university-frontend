@@ -4,15 +4,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import axios from "axios";
-import TabPanel from "../components/TabPanel";
+import {TabPanel, a11yProps} from "../components/TabPanel";
 import Item from "../components/ProjectItem";
-
-function a11yProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
 
 class MainPage extends React.Component {
     state = {

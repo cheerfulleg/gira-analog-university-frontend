@@ -21,4 +21,11 @@ function TabPanel(props) {
     );
 }
 
-export default TabPanel
+function a11yProps(index) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+export {TabPanel, a11yProps}
