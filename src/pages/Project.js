@@ -11,25 +11,36 @@ import ColumnAdder from "../components/ColumnAdder";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import {a11yProps, TabPanel} from "../components/TabPanel";
-import AddIcon from '@mui/icons-material/Add';
-import Button from "@mui/material/Button";
 import MemberItem from "../components/MemberItem";
+import AddTeamMate from "../components/AddTeamMate";
 
 
 function Project() {
     const [project, setProject] = useState('')
     const [projectMembers, setProjectMembers] = useState([])
+    const [users, setUsers] = useState([])
     const [value, setValue] = useState(0)
     const params = useParams()
 
     useEffect(() => {
+        getProject()
+        getUsers()
+    }, [])
+
+    const getProject = () => {
         axios.get(`/projects/${params.id}`)
             .then(res => {
                 setProject(res.data)
                 setProjectMembers(res.data.team_members)
             })
             .catch(e => console.log(e))
-    }, [])
+    }
+
+    const getUsers = () => {
+        axios.get('/users')
+            .then(res => setUsers(res.data))
+            .catch(err => console.log(err))
+    }
 
     const handleDragEnd = (board, card, source, destination) => {
         axios.patch(`/projects/${board.id}/task/${card.id}`,
@@ -57,7 +68,6 @@ function Project() {
         axios.post(`/projects/${project.id}/column`, {title: column.title})
             .then(res => setProject(res.data))
             .catch(err => console.log(err))
-        console.log(project)
     }
 
     const handleColumnRemove = (board, column) => {
@@ -70,7 +80,7 @@ function Project() {
         setValue(value)
     }
 
-    const handleRemoveMember = (id) => {
+    const removeMember = (id) => {
         const newList = projectMembers.filter(item => item.id !== id);
         setProjectMembers(newList)
         axios.delete(`/projects/${project.id}/member/${id}`)
@@ -78,15 +88,30 @@ function Project() {
             .catch(err => console.log(err))
     }
 
-    const handleUpdateMember = (id, data) => {
+    const updateMember = (id, data) => {
         axios.patch(`/projects/${project.id}/member/${id}`, data)
             .then(res => console.log(res))
             .catch(err => console.log(err))
     }
-    const handleAssignMember = (card, value) => {
+    const assignMember = (card, value) => {
         axios.patch(`/projects/${project.id}/task/${card.id}/assign`,
             {assignee_id: value.id})
             .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }
+
+    const addTeamMember = (data) => {
+        const newMember = users.find(item => item.id === data.user_id)
+
+        console.log(projectMembers)
+        axios.post(`/projects/${project.id}/member`, data)
+            .then(res => {
+                setProjectMembers(projectMembers.concat({
+                    id: res.data.id,
+                    role: res.data.role,
+                    user: newMember
+                }))
+            })
             .catch(err => console.log(err))
     }
 
@@ -122,7 +147,7 @@ function Project() {
                             <BoardCard card={content}
                                        dragging={dragging}
                                        removeCard={removeCard}
-                                       assignMember={handleAssignMember}
+                                       assignMember={assignMember}
                                        members={projectMembers}
                             />
                         }
@@ -143,15 +168,13 @@ function Project() {
                     />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <Button variant="outlined">
-                        <AddIcon/>  add teammate
-                    </Button>
+                    <AddTeamMate users={users} addMember={addTeamMember}/>
                     {projectMembers.map(member =>
                         <MemberItem key={member.user.id}
                                     elevation={2}
                                     member={member}
-                                    onRemove={handleRemoveMember}
-                                    onUpdate={handleUpdateMember}
+                                    onRemove={removeMember}
+                                    onUpdate={updateMember}
                         />
                     )}
                 </TabPanel>
