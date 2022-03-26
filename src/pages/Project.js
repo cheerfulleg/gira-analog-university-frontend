@@ -29,9 +29,9 @@ function Project() {
         getUsers()
     }, [])
 
-    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
 
-    const handleResponseVariant = (info) => () => {
+    const handleResponseVariant = (info) => {
         enqueueSnackbar(info.message, {variant: info.variant});
     };
 
@@ -90,9 +90,8 @@ function Project() {
 
     const removeMember = (id) => {
         const newList = projectMembers.filter(item => item.id !== id);
-        setProjectMembers(newList)
         axios.delete(`/projects/${project.id}/member/${id}`)
-            .then(res => console.log(res))
+            .then(() => setProjectMembers(newList))
             .catch(err => handleResponseVariant({message: `Something went wrong: ${err}`, variant: 'error'}))
     }
 
